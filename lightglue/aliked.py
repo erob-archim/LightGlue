@@ -634,7 +634,7 @@ class ALIKED(Extractor):
 
     required_data_keys = ["image"]
 
-    def __init__(self, **conf):
+    def __init__(self, model_weights: str, **conf):
         super().__init__(**conf)  # Update with default configuration.
         conf = self.conf
         c1, c2, c3, c4, dim, K, M = self.cfgs[conf.model_name]
@@ -687,10 +687,7 @@ class ALIKED(Extractor):
             else self.n_limit_max,
         )
 
-        state_dict = torch.hub.load_state_dict_from_url(
-            self.checkpoint_url.format(conf.model_name), map_location="cpu"
-        )
-        self.load_state_dict(state_dict, strict=True)
+        self.load_state_dict(model_weights, strict=True)
 
     def get_resblock(self, c_in, c_out, conv_type, mask):
         return ResBlock(
