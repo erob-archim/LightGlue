@@ -687,7 +687,8 @@ class ALIKED(Extractor):
             else self.n_limit_max,
         )
 
-        self.load_state_dict(model_weights, strict=True)
+        state_dict = torch.load(model_weights, weights_only=True)
+        self.load_state_dict(state_dict, strict=True)
 
     def get_resblock(self, c_in, c_out, conv_type, mask):
         return ResBlock(
